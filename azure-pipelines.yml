@@ -1,4 +1,10 @@
 trigger:
+- task: BlackDuckSecurityScan@2
+  inputs:
+    scanType: 'polaris'
+    polarisServerUrl: 'test'
+    polarisAccessToken: 'test'
+    polarisAssessmentTypes: 'test'
 
 
 - main
