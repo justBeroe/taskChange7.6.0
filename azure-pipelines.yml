@@ -1,19 +1,77 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
+
+
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default   # <-- use your self-hosted pool name, "Default" by default
+ 
+# steps:
+# - script: echo Hello from self-hosted Windows agent!
+#   displayName: 'Run a one-line script'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+# - powershell: |
+#     Write-Host "Running on Windows self-hosted agent"
+#     Write-Host "Machine name: $env:COMPUTERNAME"
+#     Write-Host "User: $env:USERNAME"
+#   displayName: 'Run PowerShell on Windows'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: FortifyScanCentralSAST@7
+  inputs:
+    scanCentralCtrlUrl: 'http://OTX-4RJ8874:9991/scancentral-ctrl/'
+    # scanCentralCtrlUrl: '$(ScanCentralCtrlUrl)'
+   # scanCentralClientToken: '$(ScanCentral.ClientToken)'
+    scanCentralClientToken: fortify
+    sscUrl: 'http://otx-4rj8874:9999/ssc'
+    # sscUrl: '$(ScanCentral.SscUrl)'
+    sscCiToken: c0b823fd-1961-461f-b518-9889f608dd01
+    uploadToSSC: true
+    applicationIdentifierType: 'byId'
+    applicationVersionId: '5'
+    buildTool: 'none'
+
+# - task: CmdLine@2
+#   inputs:
+#     script: |
+#       echo "Running ScanCentral SAST BEROE manually using task variables..."
+#       scancentral -url http://OTX-4RJ8874:9991/scancentral-ctrl/ start ^
+#         -upload ^
+#         -uptoken $(ScanCentral.SscCiToken) ^
+#         -versionid 5
+
+
+# - script: |
+#     echo "Running ScanCentral SAST BEROE manually using task variables 2..."
+#     scancentral -url http://OTX-4RJ8874:9991/scancentral-ctrl/ start ^
+#       -upload ^
+#       -uptoken $(ScanCentral.SscCiToken) ^
+#       -versionid 5
+#   displayName: 'Run ScanCentral SAST BEROE manually'
+#   continueOnError: true
+
+
+# - script: |
+#     echo "Running ScanCentral SAST BEROE manually using task variables 3..."
+#     scancentral -url http://OTX-4RJ8874:9991/scancentral-ctrl/ start ^
+#       -upload ^
+#       -uptoken $(ScanCentral.SscCiToken) ^
+#       -application beroe ^
+#       -version 5
+#   displayName: 'Run ScanCentral SAST BEROE manually'
+#   continueOnError: true
+
+- script: |  
+    echo "Show client.properties FILE"
+    cd
+    cd /
+    dir client.properties /s
+  displayName: 'SHOW directory and files only'
+  continueOnError: true
+
+
+
+# - task: FortifySCA@7
+#   inputs:
+#     applicationType: 'other'
+#     fortifyBuildId: 'test'
+#     fortifyScanType: 'LocalScan'
