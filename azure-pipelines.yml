@@ -6,15 +6,15 @@ trigger:
 pool:
   name: Default   # <-- use your self-hosted pool name, "Default" by default
  
-# steps:
-# - script: echo Hello from self-hosted Windows agent!
-#   displayName: 'Run a one-line script'
+steps:
+- script: echo Hello from self-hosted Windows agent!
+  displayName: 'Run a one-line script'
 
-# - powershell: |
-#     Write-Host "Running on Windows self-hosted agent"
-#     Write-Host "Machine name: $env:COMPUTERNAME"
-#     Write-Host "User: $env:USERNAME"
-#   displayName: 'Run PowerShell on Windows'
+- powershell: |
+    Write-Host "Running on Windows self-hosted agent"
+    Write-Host "Machine name: $env:COMPUTERNAME"
+    Write-Host "User: $env:USERNAME"
+  displayName: 'Run PowerShell on Windows'
 
 - task: FortifyScanCentralSAST@7
   inputs:
@@ -29,49 +29,3 @@ pool:
     applicationIdentifierType: 'byId'
     applicationVersionId: '5'
     buildTool: 'none'
-
-# - task: CmdLine@2
-#   inputs:
-#     script: |
-#       echo "Running ScanCentral SAST BEROE manually using task variables..."
-#       scancentral -url http://OTX-4RJ8874:9991/scancentral-ctrl/ start ^
-#         -upload ^
-#         -uptoken $(ScanCentral.SscCiToken) ^
-#         -versionid 5
-
-
-# - script: |
-#     echo "Running ScanCentral SAST BEROE manually using task variables 2..."
-#     scancentral -url http://OTX-4RJ8874:9991/scancentral-ctrl/ start ^
-#       -upload ^
-#       -uptoken $(ScanCentral.SscCiToken) ^
-#       -versionid 5
-#   displayName: 'Run ScanCentral SAST BEROE manually'
-#   continueOnError: true
-
-
-# - script: |
-#     echo "Running ScanCentral SAST BEROE manually using task variables 3..."
-#     scancentral -url http://OTX-4RJ8874:9991/scancentral-ctrl/ start ^
-#       -upload ^
-#       -uptoken $(ScanCentral.SscCiToken) ^
-#       -application beroe ^
-#       -version 5
-#   displayName: 'Run ScanCentral SAST BEROE manually'
-#   continueOnError: true
-
-- script: |  
-    echo "Show client.properties FILE"
-    cd
-    cd /
-    dir client.properties /s
-  displayName: 'SHOW directory and files only'
-  continueOnError: true
-
-
-
-# - task: FortifySCA@7
-#   inputs:
-#     applicationType: 'other'
-#     fortifyBuildId: 'test'
-#     fortifyScanType: 'LocalScan'
