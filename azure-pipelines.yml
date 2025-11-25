@@ -1,4 +1,7 @@
 trigger:
+- task: SonatypeEvaluate@2
+  inputs:
+    stage: 'Build'
 - task: NexusIqPipelineTask@2
   inputs:
     stage: 'Build'
