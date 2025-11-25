@@ -1,4 +1,7 @@
 trigger:
+- task: NexusIqPipelineTask@2
+  inputs:
+    stage: 'Build'
 # - task: BlackDuckSecurityScan@2
 #   inputs:
 #     scanType: 'polaris'
